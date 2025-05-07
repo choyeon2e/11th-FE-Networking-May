@@ -1,0 +1,17 @@
+export const palette = {
+  red: '#FF3232',
+  coral: '#FFCCCC',
+  blue: '#32A1FF',
+  skyblue: '#CCE8FF',
+  yellow: '#FFC532',
+  lime: '#F6FFCC',
+  green: '#32FF35',
+  mint: '#CEFFCC',
+  gray100: '#000000',
+  gray60: '#292E2E',
+  gray40: '#A4A4A4',
+  gray20: '#D6D6D6',
+  gray10: '#F2F2F2',
+  gray5: '#F6F6F6',
+  gray0: '#FFFFFF',
+};

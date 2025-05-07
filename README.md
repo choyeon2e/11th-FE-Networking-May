@@ -1,36 +1,70 @@
-# 🛠️ 팀별 협업 가이드
- 1. 중앙 레포지토리 Fork
-+ 각 팀은 본 레포지토리를 Fork하여 팀별 저장소를 생성합니다.
+# Getting Started with Create React App
 
- 2. 팀원 초대 및 협업 환경 구성
-+ 팀장은 팀원들을 Fork한 저장소의 Collaborator로 초대합니다.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-+ 팀원들은 팀 저장소를 Clone하여 개발 환경을 세팅합니다.
+## Available Scripts
 
- 3. Git Flow 전략 적용
-+ 팀 저장소에서 develop 브랜치를 기준으로, 각 조별 브렌치 네이밍에 맞게 생성하여 작업합니다.
+In the project directory, you can run:
 
- 4. 최종 결과물 PR 제출
-+ 팀별로 모든 작업이 완료되면, 팀 저장소의 develop 브랜치에서 추후 생성될 본 레포지토리의 develop-조번호 브랜치로 PR(Pull Request)을 생성합니다.
+### `yarn start`
 
-+ 예시: develop-6 (6조의 경우)
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
- 5. 코드 리뷰 및 병합
-+ 모든 팀은 다른 팀의 PR을 확인하고, 자유롭게 피드백을 남길 수 있습니다.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-+ 최종적으로 관리자가 PR을 확인 후 병합합니다.
+### `yarn test`
 
-# 📌 브랜치 및 PR 네이밍 규칙
- + 팀별 PR 대상 브랜치:
-develop-조번호 (예: develop-3, develop-6)
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
- + 기능 개발 브랜치:
-각 조별 브렌치 네이밍 규칙 준수
+### `yarn build`
 
- + PR 제목 예시:
-[6조] 최종 결과물 제출 
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-# 🚨 유의사항
-+ 모든 커밋 메시지는 명확하게 작성해 주세요.
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-+ 팀 저장소에서 PR 생성 시, 관련 이슈 번호를 반드시 연결해 주세요.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `yarn eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
