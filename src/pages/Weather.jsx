@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import NoWeather from './NoWeather';
-import WithWeather from './WithWeather';
 import { useState } from 'react';
+import WithWeather from '../component/weather/WithWeather';
+import NoWeather from '../component/weather/NoWeather';
 
 function Weather() {
-  const [isWeather, setIsWeather] = useState(true);
+  const [isWeather, setIsWeather] = useState(false);
   return <Wrapper>{isWeather ? <WithWeather /> : <NoWeather />}</Wrapper>;
 }
 
