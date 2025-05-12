@@ -1,8 +1,9 @@
-export const TrashCanIcon = () => {
+export const TrashCanIcon = ({ onClick }) => {
   return (
     <svg
-      width='40'
-      height='41'
+      onClick={onClick}
+      width='24'
+      height='24'
       viewBox='0 0 40 41'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'

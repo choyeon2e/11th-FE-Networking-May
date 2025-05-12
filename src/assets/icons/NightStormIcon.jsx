@@ -1,8 +1,8 @@
 export const NightStormIcon = () => {
   return (
     <svg
-      width='80'
-      height='81'
+      width='160'
+      height='160'
       viewBox='0 0 80 81'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
