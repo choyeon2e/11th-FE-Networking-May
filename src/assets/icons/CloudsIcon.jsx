@@ -1,4 +1,4 @@
-export const CloudsIcon = ({ width = 80, height = 81 }) => {
+export const CloudsIcon = ({ width = 80, height = 80, ...props }) => {
   return (
     <svg
       width={width}
