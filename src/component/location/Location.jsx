@@ -3,9 +3,16 @@ import { MapPinIcon } from './../../assets/icon/MapPinIcon';
 import { PlusIcon } from './../../assets/icon/PlusIcon';
 import { useState } from 'react';
 import LocationModal from './LocationModal';
+import LocationDiv from './LocationDiv';
 
-function Location() {
+function Location({
+  locations,
+  setLocations,
+  checkedLocationId,
+  setCheckedLocationId,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <Wrapper>
       <Flex>
@@ -18,9 +25,20 @@ function Location() {
         추가하기
       </Flex>
       <Space />
-      <LocationDiv></LocationDiv>
+      <LocationDiv
+        checkedLocationId={checkedLocationId}
+        setCheckedLocationId={setCheckedLocationId}
+        locations={locations}
+        setLocations={setLocations}
+      ></LocationDiv>
       {/*LocationDiv에 위치 목록 띄우는 기능 구현?*/}
-      {isModalOpen && <LocationModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <LocationModal
+          locations={locations}
+          setLocations={setLocations}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </Wrapper>
   );
 }
@@ -50,8 +68,4 @@ const Flex = styled.div`
 
 const Space = styled.div`
   height: 40px;
-`;
-
-const LocationDiv = styled.div`
-  justify-content: center;
 `;
