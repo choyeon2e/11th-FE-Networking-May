@@ -14,9 +14,6 @@ export default NoLocation;
 
 const Container = styled.div`
   display: flex;
-  width: 100vw;
-  height: 100vh;
-  padding-left: 248px;
   flex-direction: column;
   justify-content: center;
   align-items: center;

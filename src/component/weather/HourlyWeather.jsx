@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { palette } from '../../../styles/palette';
-import { iconMapper } from '../../../utils/iconMapper';
-import { ChevronLeft } from './../../../assets/icon/ChevronLeft';
-import { ChevronRight } from './../../../assets/icon/ChevronRight';
+import { palette } from '../../styles/palette';
+import { iconMapper } from '../../utils/iconMapper';
+import { ChevronLeft } from '../../assets/icon/ChevronLeft';
+import { ChevronRight } from '../../assets/icon/ChevronRight';
 
 function HourlyWeather({ weatherData }) {
   const [page, setPage] = useState(0);
@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   display: flex;
   padding: 24px;
   flex-direction: column;
-  width: 1080px;
+  width: 100%;
   border-radius: 16px;
   gap: 12px;
   border: 2px solid ${palette.gray10};

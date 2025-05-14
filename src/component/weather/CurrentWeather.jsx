@@ -1,15 +1,19 @@
 import styled from 'styled-components';
-import { iconMapper } from '../../../utils/iconMapper';
-import { palette } from '../../../styles/palette';
-import getWindDirection from '../../../utils/getWindDirection';
-import { weatherStyles } from '../../../utils/weatherStyles';
+import { iconMapper } from '../../utils/iconMapper';
+import { palette } from '../../styles/palette';
+import getWindDirection from '../../utils/getWindDirection';
+import getDustLevel from '../../utils/getDustLevel';
+import { weatherStyles } from '../../utils/weatherStyles';
+import getUVLevel from '../../utils/getUVLevel';
+import { useState } from 'react';
+import AirBox from './details/AirBox';
+import AirDetail from './details/AirDetail';
 
-function TempWeather({ location, weatherData }) {
+function CurrentWeather({ location, weatherData, airData }) {
+  const [isHover, setIsHover] = useState(null);
   const today = new Date();
   const month = today.getMonth() + 1;
   const day = today.getDate();
-
-  if (!weatherData) return <p>날씨 불러오는 중...</p>;
 
   const temp = weatherData.temp.toFixed(1);
   const feelTemp = weatherData.feels_like.toFixed(1);
@@ -17,13 +21,21 @@ function TempWeather({ location, weatherData }) {
   const windSpeed = weatherData.wind_speed.toFixed(1);
   const description = weatherData.weather[0].description;
   const windDirection = getWindDirection(weatherData.wind_deg);
+
   const uvInfo = weatherData.uvi;
-  const icon = iconMapper(weatherData.weather[0], 160);
+  const fine = airData.list[0].components.pm10;
+  const ultraFine = airData.list[0].components.pm2_5;
   const sunrise = new Date(weatherData.sunrise * 1000).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
   });
+
+  const fineLevel = getDustLevel(fine, 'pm10');
+  const ultraFineLevel = getDustLevel(ultraFine, 'pm2_5');
+  const uvLevel = getUVLevel(uvInfo);
+
+  const icon = iconMapper(weatherData.weather[0], 160);
 
   const isDay =
     weatherData.weather[0].icon && weatherData.weather[0].icon.includes('n')
@@ -52,36 +64,28 @@ function TempWeather({ location, weatherData }) {
           {windSpeed}m/s
         </DetailInfo>
       </WeatherWrap>
-      <DetailWrap>
-        {/* 미세먼지, 초미세먼지, 자외선 데이터 연결 필요 */}
-        <DetailBox {...weatherStyles('좋음')}>
-          미세먼지
-          <ForColor color={weatherStyles('좋음').color}>좋음</ForColor>
-        </DetailBox>
-        <DetailBox {...weatherStyles('보통')}>
-          초미세먼지
-          <ForColor color={weatherStyles('보통').color}>보통</ForColor>
-        </DetailBox>
-        <DetailBox {...weatherStyles('나쁨')}>
-          자외선{' '}
-          <ForColor color={weatherStyles('나쁨').color}>{uvInfo}</ForColor>
-        </DetailBox>
-        <DetailBox>
-          일출
-          <ForColor>{sunrise}</ForColor>
-        </DetailBox>
-      </DetailWrap>
+      <AirDetail
+        fine={fine}
+        fineLevel={fineLevel}
+        ultraFine={ultraFine}
+        ultraFineLevel={ultraFineLevel}
+        uvInfo={uvInfo}
+        uvLevel={uvLevel}
+        sunrise={sunrise}
+        isHover={isHover}
+        setIsHover={setIsHover}
+      />
     </Wrapper>
   );
 }
 
-export default TempWeather;
+export default CurrentWeather;
 
 const Wrapper = styled.div`
   display: flex;
   padding: 32px;
   flex-direction: column;
-  width: 1080px;
+  width: 100%;
   border-radius: 16px;
   gap: 12px;
   border: 2px solid ${palette.gray10};

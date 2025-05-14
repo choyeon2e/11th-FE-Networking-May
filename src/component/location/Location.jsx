@@ -53,8 +53,7 @@ const Wrapper = styled.div`
   border-top-right-radius: 48px;
   border-bottom-right-radius: 48px;
   box-shadow: 2px 0px 4px 0px #0000001a;
-  position: absolute;
-  left: 0;
+  position: relative; /* Remove absolute positioning */
 `;
 
 const Flex = styled.div`

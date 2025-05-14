@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Location from '../component/location/Location';
 import NoLocation from '../component/location/NoLocation';
-import Weather from '../component/weather/Weather';
+import Weather from './Weather';
 import { useState } from 'react';
 
 function Main() {
@@ -15,11 +15,16 @@ function Main() {
         checkedLocationId={checkedLocationId}
         setCheckedLocationId={setCheckedLocationId}
       />
-      {checkedLocationId ? (
-        <Weather locations={locations} checkedLocationId={checkedLocationId} />
-      ) : (
-        <NoLocation />
-      )}
+      <Content>
+        {checkedLocationId ? (
+          <Weather
+            locations={locations}
+            checkedLocationId={checkedLocationId}
+          />
+        ) : (
+          <NoLocation />
+        )}
+      </Content>
     </Wrapper>
   );
 }
@@ -30,6 +35,11 @@ const Wrapper = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
 `;

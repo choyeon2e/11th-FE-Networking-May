@@ -6,7 +6,7 @@ export const weatherStyles = (c) => {
       return { backgroundColor: palette.skyblue, color: palette.blue };
     case '보통':
       return { backgroundColor: palette.mint, color: palette.green };
-    case '나쁨':
+    case '위험' && '나쁨':
       return { backgroundColor: palette.coral, color: palette.red };
   }
 };
