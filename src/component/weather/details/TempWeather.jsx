@@ -11,17 +11,20 @@ function TempWeather({ location, weatherData }) {
 
   if (!weatherData) return <p>날씨 불러오는 중...</p>;
 
-  const temp = weatherData.main.temp.toFixed(1);
-  const feelTemp = weatherData.main.feels_like.toFixed(1);
-  const humidity = weatherData.main.humidity;
-  const windSpeed = weatherData.wind.speed.toFixed(1);
+  const temp = weatherData.temp.toFixed(1);
+  const feelTemp = weatherData.feels_like.toFixed(1);
+  const humidity = weatherData.humidity;
+  const windSpeed = weatherData.wind_speed.toFixed(1);
   const description = weatherData.weather[0].description;
-  const windDirection = getWindDirection(weatherData.wind.deg);
-  const icon = iconMapper(weatherData.weather[0]);
-  const sunrise = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString(
-    [],
-    { hour: '2-digit', minute: '2-digit', hour12: false }
-  );
+  const windDirection = getWindDirection(weatherData.wind_deg);
+  const uvInfo = weatherData.uvi;
+  const icon = iconMapper(weatherData.weather[0], 160);
+  const sunrise = new Date(weatherData.sunrise * 1000).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+
   const isDay =
     weatherData.weather[0].icon && weatherData.weather[0].icon.includes('n')
       ? '야간'
@@ -60,7 +63,8 @@ function TempWeather({ location, weatherData }) {
           <ForColor color={weatherStyles('보통').color}>보통</ForColor>
         </DetailBox>
         <DetailBox {...weatherStyles('나쁨')}>
-          자외선 <ForColor color={weatherStyles('나쁨').color}>나쁨</ForColor>
+          자외선{' '}
+          <ForColor color={weatherStyles('나쁨').color}>{uvInfo}</ForColor>
         </DetailBox>
         <DetailBox>
           일출
