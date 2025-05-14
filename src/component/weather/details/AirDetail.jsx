@@ -53,10 +53,9 @@ const DetailWrap = styled.div`
   display: flex;
   padding: 12px 0px;
   justify-content: center;
-  align-items: flex-start;
   gap: 16px;
-  align-self: stretch;
   font-size: 12px;
+  font-weight: 500;
 `;
 
 const DetailBox = styled.div`
@@ -73,4 +72,5 @@ const DetailBox = styled.div`
 
 const ForColor = styled.div`
   color: ${({ color }) => color || `${palette.yellow}`};
+  font-weight: 700;
 `;

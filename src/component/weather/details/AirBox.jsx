@@ -28,9 +28,11 @@ const AirBoxStyle = styled.div`
   align-items: center;
   gap: 10px;
   border-radius: 12px;
+  font-weight: 500;
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const Value = styled.div`
   color: ${({ color }) => color};
+  font-weight: 700;
 `;
