@@ -65,7 +65,6 @@ function HourlyWeather({ weatherData }) {
 export default HourlyWeather;
 
 const Wrapper = styled.div`
-  position: relative;
   display: flex;
   padding: 24px;
   flex-direction: column;
@@ -84,7 +83,6 @@ const LocText = styled.div`
 `;
 
 const RowContainer = styled.div`
-  position: relative;
   display: flex;
   align-items: center;
   width: 100%;

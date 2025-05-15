@@ -66,11 +66,10 @@ const DetailBox = styled.div`
   align-items: center;
   gap: 10px;
   border-radius: 12px;
-  background-color: ${({ backgroundColor }) =>
-    backgroundColor || `${palette.lime}`};
+  background-color: ${palette.lime};
 `;
 
 const ForColor = styled.div`
-  color: ${({ color }) => color || `${palette.yellow}`};
+  color: ${palette.yellow};
   font-weight: 700;
 `;

@@ -8,7 +8,7 @@ function Main() {
   const [locations, setLocations] = useState([]);
   const [checkedLocationId, setCheckedLocationId] = useState(null);
   return (
-    <Wrapper>
+    <Wrapper hasLocation={checkedLocationId}>
       <Location
         locations={locations}
         setLocations={setLocations}
@@ -33,8 +33,9 @@ export default Main;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  height: ${({ hasLocation }) => (hasLocation ? '1200px' : '100vh')};
 `;
 
 const Content = styled.div`

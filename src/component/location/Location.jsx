@@ -20,7 +20,7 @@ function Location({
         위치 목록
       </Flex>
       <Space />
-      <Flex cursor={true} onClick={() => setIsModalOpen(true)}>
+      <Flex iscursor onClick={() => setIsModalOpen(true)}>
         <PlusIcon />
         추가하기
       </Flex>
@@ -47,13 +47,13 @@ export default Location;
 
 const Wrapper = styled.div`
   width: 248px;
-  height: 100vh;
   padding: 48px 16px 48px 16px;
   text-align: center;
   border-top-right-radius: 48px;
   border-bottom-right-radius: 48px;
   box-shadow: 2px 0px 4px 0px #0000001a;
-  position: relative; /* Remove absolute positioning */
+  position: fixed;
+  left: 0;
 `;
 
 const Flex = styled.div`
@@ -62,7 +62,7 @@ const Flex = styled.div`
   font-size: 20px;
   font-weight: 700;
   gap: 16px;
-  cursor: ${({ cursor }) => (cursor ? 'pointer' : 'default')};
+  cursor: ${({ iscursor }) => (iscursor ? 'pointer' : 'default')};
 `;
 
 const Space = styled.div`

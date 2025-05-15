@@ -3,10 +3,8 @@ import { iconMapper } from '../../utils/iconMapper';
 import { palette } from '../../styles/palette';
 import getWindDirection from '../../utils/getWindDirection';
 import getDustLevel from '../../utils/getDustLevel';
-import { weatherStyles } from '../../utils/weatherStyles';
 import getUVLevel from '../../utils/getUVLevel';
 import { useState } from 'react';
-import AirBox from './details/AirBox';
 import AirDetail from './details/AirDetail';
 
 function CurrentWeather({ location, weatherData, airData }) {
@@ -15,6 +13,9 @@ function CurrentWeather({ location, weatherData, airData }) {
   const month = today.getMonth() + 1;
   const day = today.getDate();
 
+  if (!weatherData) return <p>날씨 불러오는 중...</p>;
+
+  //날씨 데이터 추출
   const temp = weatherData.temp.toFixed(1);
   const feelTemp = weatherData.feels_like.toFixed(1);
   const humidity = weatherData.humidity;
@@ -22,6 +23,7 @@ function CurrentWeather({ location, weatherData, airData }) {
   const description = weatherData.weather[0].description;
   const windDirection = getWindDirection(weatherData.wind_deg);
 
+  //공기 데이터 추출
   const uvInfo = weatherData.uvi;
   const fine = airData.list[0].components.pm10;
   const ultraFine = airData.list[0].components.pm2_5;
@@ -35,8 +37,8 @@ function CurrentWeather({ location, weatherData, airData }) {
   const ultraFineLevel = getDustLevel(ultraFine, 'pm2_5');
   const uvLevel = getUVLevel(uvInfo);
 
+  //아이콘
   const icon = iconMapper(weatherData.weather[0], 160);
-
   const isDay =
     weatherData.weather[0].icon && weatherData.weather[0].icon.includes('n')
       ? '야간'
@@ -138,29 +140,4 @@ const Divide = styled.div`
 
 const Title = styled.div`
   color: ${palette.gray40};
-`;
-
-const DetailWrap = styled.div`
-  display: flex;
-  padding: 12px 0px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-  font-size: 12px;
-`;
-
-const DetailBox = styled.div`
-  display: flex;
-  width: 120px;
-  padding: 12px 24px;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  border-radius: 12px;
-  background-color: ${({ backgroundColor }) => backgroundColor || palette.lime};
-`;
-
-const ForColor = styled.div`
-  color: ${({ color }) => color || palette.yellow};
 `;

@@ -18,6 +18,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 24px;
+  margin-left: 248px;
 `;
 const Title = styled.div`
   font-size: 36px;

@@ -1,74 +1,39 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchWeather } from '../apis/axios';
+import CurrentWeather from './../component/weather/CurrentWeather';
+import HourlyWeather from './../component/weather/HourlyWeather';
+import WeekWeather from './../component/weather/WeekWeather';
 import styled from 'styled-components';
-import CurrentWeather from '../component/weather/CurrentWeather';
-import HourlyWeather from '../component/weather/HourlyWeather';
-import WeekWeather from '../component/weather/WeekWeather';
-import {
-  weatherCurrent,
-  weatherDaily,
-  weatherHourly,
-  airData,
-} from '../apis/weatherMock';
 
 function Weather({ checkedLocationId, locations }) {
   const location = locations.find((loc) => loc.id === checkedLocationId);
-  // const [weatherCurrent, setWeatherCurrent] = useState(null);
-  // const [weatherHourly, setWeatherHourly] = useState([]);
-  // const [weatherDaily, setWeatherDaily] = useState([]);
-  // const [airData, setAirData] = useState([]);
+  const lat = location?.y;
+  const lon = location?.x;
 
-  // useEffect(() => {
-  //   if (!location) return;
+  //날씨 데이터 불러오기 쿼리문
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ['weather', lat, lon],
+    queryFn: () => fetchWeather(lat, lon),
+    enabled: !!lat && !!lon,
+  });
 
-  //   const fetchWeather = async () => {
-  //     const lat = location.y;
-  //     const lon = location.x;
-  //     const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
-  //     const weatherURL = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&appid=${API_KEY}&units=metric&lang=kr`;
-
-  //     try {
-  //       const res = await axios.get(weatherURL);
-  //       setWeatherCurrent(res.data.current);
-  //       setWeatherHourly(res.data.hourly);
-  //       setWeatherDaily(res.data.daily);
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert('날씨 데이터를 가져오는데 실패했습니다.');
-  //     }
-  //   };
-  //   fetchWeather();
-  // }, [location]);
-
-  // useEffect(() => {
-  //   if (!location) return;
-
-  //   const fetchWeather = async () => {
-  //     const lat = location.y;
-  //     const lon = location.x;
-  //     const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
-  //     const airURL = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=kr`;
-
-  //     try {
-  //       const res = await axios.get(airURL);
-  //       setAirData(res.data);
-  //     } catch (err) {
-  //       console.error(err);
-  //       alert('공기 데이터를 가져오는데 실패했습니다.');
-  //     }
-  //   };
-  //   fetchWeather();
-  // }, [location]);
+  if (isLoading) return <LoadWeather>날씨 정보를 불러오는 중...</LoadWeather>;
+  if (isError)
+    return (
+      <LoadWeather>
+        날씨 정보를 불러오는데 실패했습니다: {error.message}
+      </LoadWeather>
+    );
 
   return (
     <Wrapper>
       <CurrentWeather
         location={location}
-        weatherData={weatherCurrent}
-        airData={airData}
+        weatherData={data.current}
+        airData={data.air}
       />
-      <HourlyWeather weatherData={weatherHourly} />
-      <WeekWeather weatherData={weatherDaily} />
+      <HourlyWeather weatherData={data.hourly} />
+      <WeekWeather weatherData={data.daily} />
     </Wrapper>
   );
 }
@@ -81,4 +46,11 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 24px;
+  margin-left: 248px;
+`;
+
+const LoadWeather = styled.div`
+  position: absolute;
+  margin-left: 248px;
+  top: 0;
 `;
