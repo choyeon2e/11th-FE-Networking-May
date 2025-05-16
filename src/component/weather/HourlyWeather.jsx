@@ -4,6 +4,7 @@ import { palette } from '../../styles/palette';
 import { iconMapper } from '../../utils/iconMapper';
 import { ChevronLeft } from '../../assets/icon/ChevronLeft';
 import { ChevronRight } from '../../assets/icon/ChevronRight';
+import TempGraph from './../../utils/TempGraph';
 
 function HourlyWeather({ weatherData }) {
   const [page, setPage] = useState(0);
@@ -37,6 +38,9 @@ function HourlyWeather({ weatherData }) {
   return (
     <Wrapper>
       <LocText>시간별 현황</LocText>
+      <GraphContainer>
+        <TempGraph data={currentData} />
+      </GraphContainer>
       <RowContainer>
         <NavButton onClick={handlePrev} visible={page === 0}>
           <ChevronLeft />
@@ -66,7 +70,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   border-radius: 16px;
-  gap: 12px;
   border: 2px solid ${palette.gray10};
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.1);
 `;
@@ -76,6 +79,11 @@ const LocText = styled.div`
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 24px;
+`;
+
+const GraphContainer = styled.div`
+  width: 100%;
+  height: 100px;
 `;
 
 const RowContainer = styled.div`
@@ -88,7 +96,7 @@ const WeatherRow = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 12px 0px;
+  padding: 0px 0px 12px 0px;
 `;
 
 const WeatherItem = styled.div`

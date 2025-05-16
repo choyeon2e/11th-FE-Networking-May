@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import LocationList from './LocationList';
 import useDebounce from '../../hooks/useDebounce';
 import { ZoomIcon } from '../../assets/icon/ZoomIcon';
+import ReactDOM from 'react-dom';
 
 const { kakao } = window;
 function LocationModal({ onClose, locations, setLocations }) {
@@ -47,7 +48,7 @@ function LocationModal({ onClose, locations, setLocations }) {
     }
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Backdrop onClick={onClose}>
       <Container onClick={(e) => e.stopPropagation()}>
         <IconStyled onClick={handleClose}>
@@ -77,7 +78,9 @@ function LocationModal({ onClose, locations, setLocations }) {
           />
         )}
       </Container>
-    </Backdrop>
+    </Backdrop>,
+    document.getElementById('modal-root')
+    //ReCharts 사용으로 인해 모달창에 그래프 겹쳐보이지 않게하기위함~!
   );
 }
 

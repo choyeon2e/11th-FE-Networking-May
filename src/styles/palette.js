@@ -1,4 +1,5 @@
 export const palette = {
+  white: '#ffffff',
   red: '#FF3232',
   coral: '#FFCCCC',
   blue: '#32A1FF',
