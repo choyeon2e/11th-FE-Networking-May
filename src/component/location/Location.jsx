@@ -31,7 +31,6 @@ function Location({
         locations={locations}
         setLocations={setLocations}
       ></LocationDiv>
-      {/*LocationDiv에 위치 목록 띄우는 기능 구현?*/}
       {isModalOpen && (
         <LocationModal
           locations={locations}

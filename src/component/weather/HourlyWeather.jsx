@@ -37,12 +37,10 @@ function HourlyWeather({ weatherData }) {
   return (
     <Wrapper>
       <LocText>시간별 현황</LocText>
-      {page > 0 && (
-        <NavButton onClick={handlePrev} position='left'>
+      <RowContainer>
+        <NavButton onClick={handlePrev} visible={page === 0}>
           <ChevronLeft />
         </NavButton>
-      )}
-      <RowContainer>
         <WeatherRow>
           {currentData.map((data, index) => (
             <WeatherItem key={index}>
@@ -52,12 +50,10 @@ function HourlyWeather({ weatherData }) {
             </WeatherItem>
           ))}
         </WeatherRow>
-      </RowContainer>
-      {page < totalPages - 1 && (
-        <NavButton onClick={handleNext} position='right'>
+        <NavButton onClick={handleNext} visible={page === totalPages - 1}>
           <ChevronRight />
         </NavButton>
-      )}
+      </RowContainer>
     </Wrapper>
   );
 }
@@ -66,7 +62,7 @@ export default HourlyWeather;
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 24px;
+  padding: 24px 16px;
   flex-direction: column;
   width: 100%;
   border-radius: 16px;
@@ -92,7 +88,7 @@ const WeatherRow = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 12px 24px;
+  padding: 12px 0px;
 `;
 
 const WeatherItem = styled.div`
@@ -105,26 +101,18 @@ const WeatherItem = styled.div`
 `;
 
 const NavButton = styled.div`
-  position: absolute;
-  top: 50%;
   border: none;
   width: 32px;
   height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 6px;
   cursor: pointer;
 
   ${(props) =>
-    props.position === 'left' &&
+    props.visible &&
     `
-    left: 0;
-  `}
-  ${(props) =>
-    props.position === 'right' &&
-    `
-    right: 0;
+    visibility: hidden;
   `}
 `;
 
