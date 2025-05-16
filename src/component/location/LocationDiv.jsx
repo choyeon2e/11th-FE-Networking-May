@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useState } from 'react';
 import DeleteModal from './DeleteModal';
 import { PinClayIcon } from '../../assets/icon/PinClayIcon';
@@ -64,14 +64,13 @@ function LocationDiv({
                 {isPinned ? <PinColorIcon /> : <PinClayIcon />}
               </PinWrapper>
               <LocationDivName>{location.place_name}</LocationDivName>
-              {isChecked && (
-                <TrashCanIcon
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOnDelete(location.id);
-                  }}
-                />
-              )}
+
+              <TrashCanIcon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOnDelete(location.id);
+                }}
+              />
             </Wrapper>
           );
         })}
@@ -106,6 +105,12 @@ const Container = styled.div`
     display: none;
   }
 `;
+
+const activeStyle = css`
+  background-color: ${palette.gray10};
+  border-radius: 15px;
+  box-shadow: 2px 4px 4px 0px #0000001a;
+`;
 const Wrapper = styled.div`
   display: flex;
   width: 200px;
@@ -115,11 +120,24 @@ const Wrapper = styled.div`
   margin-right: auto;
   gap: 12px;
   cursor: pointer;
-  background-color: ${({ checked }) => (checked ? palette.gray10 : 'white')};
-  border-radius: ${({ checked }) =>
-    checked ? '15px' : '4px'}; // checked일 때 더 부드러운 곡선
-  box-shadow: ${({ checked }) =>
-    checked ? '2px 4px 4px 0px #0000001a' : 'none'};
+
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: none;
+
+  .trash-icon {
+    display: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    ${activeStyle}
+    .trash-icon {
+      display: block;
+    }
+  }
+
+  ${({ checked }) => checked && activeStyle}
 `;
 const LocationDivName = styled.div`
   display: flex;
