@@ -11,55 +11,55 @@ import { SnowIcon } from '../assets/icons/SnowIcon';
 import { ThunderStormIcon } from '../assets/icons/ThunderStormIcon';
 import { WindIcon } from '../assets/icons/WindIcon';
 
-export const iconMapper = (weather) => {
+export const iconMapper = (weather, size) => {
   const isNight = weather.icon?.includes('n');
   const condition = weather.main;
 
   if (isNight) {
     switch (condition) {
       case 'Clear':
-        return <MoonIcon width={160} height={160} />;
+        return <MoonIcon width={size} height={size} />;
       case 'Clouds':
-        return <NightCloudsIcon width={160} height={160} />;
+        return <NightCloudsIcon width={size} height={size} />;
       case 'Rain':
-        return <NightRainIcon width={160} height={160} />;
+        return <NightRainIcon width={size} height={size} />;
       case 'Snow':
-        return <NightSnowIcon width={160} height={160} />;
+        return <NightSnowIcon width={size} height={size} />;
       case 'Thunderstorm':
-        return <NightStormIcon width={160} height={160} />;
+        return <NightStormIcon width={size} height={size} />;
       case 'Drizzle':
-        return <NightRainIcon width={160} height={160} />;
+        return <NightRainIcon width={size} height={size} />;
       case 'Atmosphere':
       case 'Mist':
       case 'Haze':
       case 'Fog':
       case 'Dust':
-        return <NightWindIcon width={160} height={160} />;
+        return <NightWindIcon width={size} height={size} />;
       default:
-        return <MoonIcon width={160} height={160} />;
+        return <MoonIcon width={size} height={size} />;
     }
   } else {
     switch (condition) {
       case 'Clear':
-        return <SunIcon width={160} height={160} />;
+        return <SunIcon width={size} height={size} />;
       case 'Clouds':
-        return <CloudsIcon width={160} height={160} />;
+        return <CloudsIcon width={size} height={size} />;
       case 'Rain':
-        return <RainIcon width={160} height={160} />;
+        return <RainIcon width={size} height={size} />;
       case 'Snow':
-        return <SnowIcon width={160} height={160} />;
+        return <SnowIcon width={size} height={size} />;
       case 'Thunderstorm':
-        return <ThunderStormIcon width={160} height={160} />;
+        return <ThunderStormIcon width={size} height={size} />;
       case 'Drizzle':
-        return <RainIcon width={160} height={160} />;
+        return <RainIcon width={size} height={size} />;
       case 'Atmosphere':
       case 'Mist':
       case 'Haze':
       case 'Fog':
       case 'Dust':
-        return <WindIcon width={160} height={160} />;
+        return <WindIcon width={size} height={size} />;
       default:
-        return <SunIcon width={160} height={160} />;
+        return <SunIcon width={size} height={size} />;
     }
   }
 };

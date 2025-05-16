@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import { CloudsIcon } from './../../assets/icons/CloudsIcon';
 import { MultiplyIcon } from './../../assets/icon/MultiplyIcon';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LocationList from './LocationList';
-import useDebounce from '../../hooks/useDebounce';
 import { ZoomIcon } from '../../assets/icon/ZoomIcon';
+import ReactDOM from 'react-dom';
+import { palette } from '../../styles/palette';
 
 const { kakao } = window;
 function LocationModal({ onClose, locations, setLocations }) {
@@ -15,12 +16,6 @@ function LocationModal({ onClose, locations, setLocations }) {
   const handleClose = () => {
     onClose();
   };
-  const debouncedSearch = useDebounce(search, 500);
-  useEffect(() => {
-    if (debouncedSearch) {
-      searchPlace(debouncedSearch);
-    }
-  }, [debouncedSearch]);
   const handleOnInput = (e) => {
     setSearch(e.target.value);
     setIsSearched(false); // 입력값 바뀌면 다시 리스트 숨김
@@ -34,11 +29,13 @@ function LocationModal({ onClose, locations, setLocations }) {
       } else {
         setSearchResults([]);
       }
+      setIsSearched(true);
     });
   };
 
   const handleOnSearch = () => {
-    setIsSearched(true);
+    if (!search.trim()) return;
+    searchPlace(search);
   };
 
   const handleOnEnter = (e) => {
@@ -47,8 +44,8 @@ function LocationModal({ onClose, locations, setLocations }) {
     }
   };
 
-  return (
-    <Backdrop onClick={onClose}>
+  return ReactDOM.createPortal(
+    <Backdrop onClick={handleClose}>
       <Container onClick={(e) => e.stopPropagation()}>
         <IconStyled onClick={handleClose}>
           <MultiplyIcon />
@@ -68,16 +65,21 @@ function LocationModal({ onClose, locations, setLocations }) {
             <ZoomIcon onClick={handleOnSearch} />
           </InputWrapper>
         </LocationTitle>
-        {isSearched && (
-          <LocationList
-            locations={locations}
-            setLocations={setLocations}
-            places={searchResults}
-            onClose={handleClose}
-          />
-        )}
+        {isSearched &&
+          (searchResults.length > 0 ? (
+            <LocationList
+              locations={locations}
+              setLocations={setLocations}
+              places={searchResults}
+              onClose={handleClose}
+            />
+          ) : (
+            <SearchStatus>검색 결과가 없습니다 😢</SearchStatus>
+          ))}
       </Container>
-    </Backdrop>
+    </Backdrop>,
+    document.getElementById('modal-root')
+    //ReCharts 사용으로 인해 모달창에 그래프 겹쳐보이지 않게하기위함~!
   );
 }
 
@@ -151,4 +153,12 @@ const SearchInput = styled.input`
   border: none;
   margin-right: 5px;
   outline: none;
+`;
+const SearchStatus = styled.div`
+  color: ${palette.red};
+  font-weight: 600;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 20px;
+  margin-left: 150px;
 `;

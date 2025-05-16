@@ -55,19 +55,17 @@ function LocationList({ places, onClose, locations, setLocations }) {
   return (
     <Container>
       <ListWrapper>
-        {places.map((place) => {
-          return (
-            <PlaceList
-              onClick={() => handleOnCheck(place.id)}
-              key={place.id}
-              checked={checkedPlaceId === place.id}
-            >
-              <PlaceName>{place.place_name}</PlaceName>
-              <AddressName>{place.address_name}</AddressName>
-              {checkedPlaceId === place.id && <TickIcon />}
-            </PlaceList>
-          );
-        })}
+        {places.map((place) => (
+          <PlaceList
+            onClick={() => handleOnCheck(place.id)}
+            key={place.id}
+            checked={checkedPlaceId === place.id}
+          >
+            <PlaceName>{place.place_name}</PlaceName>
+            <AddressName>{place.address_name}</AddressName>
+            {checkedPlaceId === place.id && <TickIcon />}
+          </PlaceList>
+        ))}
       </ListWrapper>
       <SubmitWrapper>
         <LocationSubmit onClick={handleOnSubmit}>확인</LocationSubmit>

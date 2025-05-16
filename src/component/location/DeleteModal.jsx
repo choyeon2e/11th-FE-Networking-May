@@ -1,9 +1,10 @@
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { NightStormIcon } from '../../assets/icons/NightStormIcon';
-import { palette } from '../../styles/palette';
+import { NightStormIcon } from './../../assets/icons/NightStormIcon';
+import { palette } from './../../styles/palette';
 
 function DeleteModal({ onClose, onDelete }) {
-  return (
+  return ReactDOM.createPortal(
     <Backdrop onClick={onClose}>
       <Container onClick={(e) => e.stopPropagation()}>
         <Title>정말로 삭제하시겠습니까?</Title>
@@ -13,7 +14,9 @@ function DeleteModal({ onClose, onDelete }) {
           <Delete onClick={onDelete}>삭제하기</Delete>
         </ButtonWrapper>
       </Container>
-    </Backdrop>
+    </Backdrop>,
+    document.getElementById('modal-root')
+    //ReCharts 사용으로 인해 모달창에 그래프 겹쳐보이지 않게하기위함~!
   );
 }
 
@@ -73,6 +76,7 @@ const Cancel = styled.button`
   font-weight: 500;
   border: 1px solid ${palette.gray60};
   border-radius: 6px;
+  text-align: center;
 `;
 
 const Delete = styled.button`
@@ -86,4 +90,5 @@ const Delete = styled.button`
   font-weight: 500;
   border-radius: 6px;
   border: 1px solid ${palette.gray60};
+  text-align: center;
 `;
