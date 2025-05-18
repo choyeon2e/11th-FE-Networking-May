@@ -6,6 +6,7 @@ import LocationList from './LocationList';
 import { ZoomIcon } from '../../assets/icon/ZoomIcon';
 import ReactDOM from 'react-dom';
 import { palette } from '../../styles/palette';
+import { motion } from 'framer-motion';
 
 const { kakao } = window;
 function LocationModal({ onClose, locations, setLocations }) {
@@ -45,8 +46,20 @@ function LocationModal({ onClose, locations, setLocations }) {
   };
 
   return ReactDOM.createPortal(
-    <Backdrop onClick={handleClose}>
-      <Container onClick={(e) => e.stopPropagation()}>
+    <Backdrop
+      onClick={handleClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Container
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3 }}
+      >
         <IconStyled onClick={handleClose}>
           <MultiplyIcon />
         </IconStyled>
@@ -85,7 +98,7 @@ function LocationModal({ onClose, locations, setLocations }) {
 
 export default LocationModal;
 
-const Backdrop = styled.div`
+const Backdrop = styled(motion.div)`
   top: 0;
   left: 0;
   z-index: 999;
@@ -98,7 +111,7 @@ const Backdrop = styled.div`
   position: fixed;
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 624px;
   height: 641px;
   padding: 36px 72px;

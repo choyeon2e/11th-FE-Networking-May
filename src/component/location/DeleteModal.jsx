@@ -2,11 +2,24 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { NightStormIcon } from './../../assets/icons/NightStormIcon';
 import { palette } from './../../styles/palette';
+import { motion } from 'framer-motion';
 
 function DeleteModal({ onClose, onDelete }) {
   return ReactDOM.createPortal(
-    <Backdrop onClick={onClose}>
-      <Container onClick={(e) => e.stopPropagation()}>
+    <Backdrop
+      onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Container
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3 }}
+      >
         <Title>정말로 삭제하시겠습니까?</Title>
         <NightStormIcon />
         <ButtonWrapper>
@@ -22,7 +35,7 @@ function DeleteModal({ onClose, onDelete }) {
 
 export default DeleteModal;
 
-const Backdrop = styled.div`
+const Backdrop = styled(motion.div)`
   top: 0;
   left: 0;
   z-index: 999;
@@ -35,7 +48,7 @@ const Backdrop = styled.div`
   position: fixed;
 `;
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   width: 545px;
   height: 354px;
   display: flex;

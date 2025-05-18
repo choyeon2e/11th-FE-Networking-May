@@ -5,6 +5,7 @@ import { PinClayIcon } from '../../assets/icon/PinClayIcon';
 import { PinColorIcon } from '../../assets/icon/PinColorIcon';
 import { TrashCanIcon } from '../../assets/icon/TrashCanIcon';
 import { palette } from '../../styles/palette';
+import { AnimatePresence } from 'framer-motion';
 
 function LocationDiv({
   locations,
@@ -76,16 +77,18 @@ function LocationDiv({
         })}
       </Container>
 
-      {deleteLocationId && (
-        <DeleteModal
-          onClose={handleModalClose}
-          onDelete={() => {
-            deleteLocation(deleteLocationId);
-            setCheckedLocationId(null);
-            handleModalClose();
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {deleteLocationId && (
+          <DeleteModal
+            onClose={handleModalClose}
+            onDelete={() => {
+              deleteLocation(deleteLocationId);
+              setCheckedLocationId(null);
+              handleModalClose();
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
