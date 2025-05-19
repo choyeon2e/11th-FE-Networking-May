@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchWeather } from '../apis/axios';
 import CurrentWeather from './../component/weather/CurrentWeather';
 import HourlyWeather from './../component/weather/HourlyWeather';
 import WeekWeather from './../component/weather/WeekWeather';
 import styled from 'styled-components';
+import { fetchWeather } from './../apis/fetchWeather';
 
 function Weather({ checkedLocationId, locations }) {
   const location = locations.find((loc) => loc.id === checkedLocationId);
   const lat = location?.y;
   const lon = location?.x;
+  console.log(lat, lon);
 
-  //날씨 데이터 불러오기 쿼리문
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['weather', lat, lon],
     queryFn: () => fetchWeather(lat, lon),
@@ -24,6 +24,7 @@ function Weather({ checkedLocationId, locations }) {
         날씨 정보를 불러오는데 실패했습니다: {error.message}
       </LoadWeather>
     );
+  console.log(data.weekly);
 
   return (
     <Wrapper>
@@ -33,7 +34,7 @@ function Weather({ checkedLocationId, locations }) {
         airData={data.air}
       />
       <HourlyWeather weatherData={data.hourly} />
-      <WeekWeather weatherData={data.daily} />
+      <WeekWeather weatherData={data.weekly} />
     </Wrapper>
   );
 }

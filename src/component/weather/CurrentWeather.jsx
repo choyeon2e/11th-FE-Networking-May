@@ -38,7 +38,8 @@ function CurrentWeather({ location, weatherData, airData }) {
   const uvLevel = getUVLevel(uvInfo);
 
   //아이콘
-  const icon = iconMapper(weatherData.weather[0], 160);
+  const isNight = weatherData.weather[0].icon.includes('n');
+  const icon = iconMapper(weatherData.weather[0], 160, { isNight });
   const isDay =
     weatherData.weather[0].icon && weatherData.weather[0].icon.includes('n')
       ? '야간'

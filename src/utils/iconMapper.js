@@ -11,11 +11,29 @@ import { SnowIcon } from '../assets/icons/SnowIcon';
 import { ThunderStormIcon } from '../assets/icons/ThunderStormIcon';
 import { WindIcon } from '../assets/icons/WindIcon';
 
-export const iconMapper = (weather, size) => {
-  const isNight = weather.icon?.includes('n');
-  const condition = weather.main;
+export const iconMapper = (weather, size, options = {}) => {
+  const { isNight = null, period = null } = options;
 
-  if (isNight) {
+  let night = false;
+
+  if (isNight !== null) {
+    night = isNight;
+  } else if (period) {
+    night = period === 'pm';
+  } else if (weather && typeof weather === 'object') {
+    if ('icon' in weather && typeof weather.icon === 'string') {
+      night = weather.icon.includes('n');
+    } else if ('pm' in weather) {
+      night = true;
+    } else if ('am' in weather) {
+      night = false;
+    }
+  }
+
+  const condition =
+    typeof weather === 'string' ? weather : (weather?.main ?? weather);
+
+  if (night) {
     switch (condition) {
       case 'Clear':
         return <MoonIcon width={size} height={size} />;
