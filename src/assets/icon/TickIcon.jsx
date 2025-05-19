@@ -9,7 +9,7 @@ export const TickIcon = () => {
       style={{
         position: 'absolute',
         right: '8px',
-        bottom: '15px',
+        bottom: '7.5px',
       }}
     >
       <path fill='url(#a)' d='M0 .5h40v40H0z' />
