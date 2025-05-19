@@ -1,6 +1,9 @@
 export const TrashCanIcon = ({ onClick }) => {
+  const uniqueId = Math.random().toString(36).substr(2, 9);
+  console.log(uniqueId);
   return (
     <svg
+      className='trash-icon'
       onClick={onClick}
       width='24'
       height='24'
@@ -9,18 +12,18 @@ export const TrashCanIcon = ({ onClick }) => {
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'
     >
-      <rect y='0.5' width='40' height='40' fill='url(#pattern0_16_1606)' />
+      <rect y='0.5' width='40' height='40' fill={`url(#pattern${uniqueId})`} />
       <defs>
         <pattern
-          id='pattern0_16_1606'
+          id={`pattern${uniqueId}`}
           patternContentUnits='objectBoundingBox'
           width='1'
           height='1'
         >
-          <use xlinkHref='#image0_16_1606' transform='scale(0.001)' />
+          <use xlinkHref={`#image${uniqueId}`} transform='scale(0.001)' />
         </pattern>
         <image
-          id='image0_16_1606'
+          id={`image${uniqueId}`}
           width='1000'
           height='1000'
           preserveAspectRatio='none'

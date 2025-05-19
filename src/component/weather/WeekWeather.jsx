@@ -2,25 +2,25 @@ import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 import { iconMapper } from '../../utils/iconMapper';
 
-//날짜 계산
-const calcDate = (dt) => {
-  const date = new Date(dt * 1000);
+//요일 계산
+const calcDay = (dateStr, index) => {
+  if (index === 0) return '오늘';
+
+  const date = new Date(dateStr);
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
+  return days[date.getDay()];
+};
+
+//날짜 포맷팅
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
   const month = date.getMonth() + 1;
   const day = date.getDate();
   return `${month}.${day}`;
 };
 
-//요일 계산
-const calcDay = (dt, index) => {
-  if (index === 0) return '오늘';
-  const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const date = new Date(dt * 1000);
-  return days[date.getDay()];
-};
-
 function WeekWeather({ weatherData }) {
   const fiveDaysData = weatherData.slice(0, 5);
-
   return (
     <Wrapper>
       <LocText>주간 예보</LocText>
@@ -29,27 +29,21 @@ function WeekWeather({ weatherData }) {
           <DayDiv key={index}>
             <TimeRow>
               <TimeDiv time='day'>
-                {iconMapper(day.weather[0], 60)}
-                <PopDiv>{(day.pop * 100).toFixed(0)}%</PopDiv>
+                {iconMapper(day.am.weather, 60, { period: 'am' })}
+                <PopDiv>{day.am.pop.toFixed(0)}%</PopDiv>
                 <div style={{ color: palette.gray60 }}>오전</div>
-                {day.temp.day.toFixed(0)}°
+                {day.am.avgTemp.toFixed(0)}°
               </TimeDiv>
               <TimeDiv time='night'>
-                {iconMapper(
-                  {
-                    ...day.weather[0],
-                    icon: day.weather[0].icon.replace('d', 'n'),
-                  },
-                  60
-                )}
-                <PopDiv>{(day.pop * 100).toFixed(0)}%</PopDiv>
+                {iconMapper(day.pm.weather, 60, { period: 'pm' })}
+                <PopDiv>{day.pm.pop.toFixed(0)}%</PopDiv>
                 <div style={{ color: palette.gray60 }}>오후</div>
-                {day.temp.night.toFixed(0)}°
+                {day.pm.avgTemp.toFixed(0)}°
               </TimeDiv>
             </TimeRow>
             <DateDiv>
-              <div>{calcDay(day.dt, index)}</div>
-              {calcDate(day.dt)}
+              <div>{calcDay(day.date, index)}</div>
+              {formatDate(day.date)}
             </DateDiv>
           </DayDiv>
         ))}

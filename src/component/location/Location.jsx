@@ -4,6 +4,7 @@ import { PlusIcon } from './../../assets/icon/PlusIcon';
 import { useState } from 'react';
 import LocationModal from './LocationModal';
 import LocationDiv from './LocationDiv';
+import { AnimatePresence } from 'framer-motion';
 
 function Location({
   locations,
@@ -31,13 +32,15 @@ function Location({
         locations={locations}
         setLocations={setLocations}
       ></LocationDiv>
-      {isModalOpen && (
-        <LocationModal
-          locations={locations}
-          setLocations={setLocations}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <LocationModal
+            locations={locations}
+            setLocations={setLocations}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </Wrapper>
   );
 }

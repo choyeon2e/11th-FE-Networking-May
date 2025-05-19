@@ -82,11 +82,10 @@ const Container = styled.div`
 const ListWrapper = styled.div`
   display: flex;
   height: 240px;
-  padding: 8px 16px;
+  padding: 0px 16px;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  gap: 16px;
   align-self: stretch;
   border-radius: 8px;
   border: 1px solid ${palette.gray40};
@@ -100,18 +99,20 @@ const ListWrapper = styled.div`
 const PlaceList = styled.ul`
   cursor: pointer;
   position: relative;
-  width: 100%;
-  padding: 8px 16px;
+  width: 448px;
+  height: 53px;
+  padding: 0px 12px;
   list-style-type: none;
-
   border-bottom: 1px solid ${palette.gray40};
+  li:not(:first-child) {
+    padding-top: 4px;
+  }
 `;
 const PlaceName = styled.li`
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  padding-bottom: 6px;
 `;
 const AddressName = styled.li`
   font-size: 12px;
@@ -119,17 +120,18 @@ const AddressName = styled.li`
   font-weight: 400;
   line-height: normal;
   color: ${palette.gray40};
+  padding-bottom: 4px;
 `;
 
 const SubmitWrapper = styled.div`
   display: flex;
+  height: 36px;
   justify-content: flex-end;
   align-items: flex-end;
   align-self: stretch;
 `;
 const LocationSubmit = styled.button`
   width: 95px;
-  height: 36px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
