@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 const { kakao } = window;
 function LocationModal({ onClose, locations, setLocations }) {
   const [search, setSearch] = useState('');
-  const [searchResults, setSearchResults] = useState([]); // 검색 결과 리스트를 위한 state
+  const [searchResults, setSearchResults] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
 
   const handleClose = () => {
@@ -19,7 +19,7 @@ function LocationModal({ onClose, locations, setLocations }) {
   };
   const handleOnInput = (e) => {
     setSearch(e.target.value);
-    setIsSearched(false); // 입력값 바뀌면 다시 리스트 숨김
+    setIsSearched(false);
   };
 
   const searchPlace = (search) => {
@@ -33,7 +33,6 @@ function LocationModal({ onClose, locations, setLocations }) {
       setIsSearched(true);
     });
   };
-
   const handleOnSearch = () => {
     if (!search.trim()) return;
     searchPlace(search);
