@@ -48,7 +48,7 @@ function CurrentWeather({ location, weatherData, airData }) {
   return (
     <Wrapper>
       <LocText>
-        {month}월 {day}일 {location.place_name} 날씨 현황
+        {month}월 {day}일 {location.placeName} 날씨 현황
       </LocText>
       <WeatherWrap>
         <WeatherDiv>
