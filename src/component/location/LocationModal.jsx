@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { CloudsIcon } from './../../assets/icons/CloudsIcon';
 import { MultiplyIcon } from './../../assets/icon/MultiplyIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LocationList from './LocationList';
 import { ZoomIcon } from '../../assets/icon/ZoomIcon';
 import ReactDOM from 'react-dom';
@@ -9,14 +9,11 @@ import { palette } from '../../styles/palette';
 import { motion } from 'framer-motion';
 
 const { kakao } = window;
-function LocationModal({ onClose, locations, setLocations }) {
+function LocationModal({ onClose }) {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
 
-  const handleClose = () => {
-    onClose();
-  };
   const handleOnInput = (e) => {
     setSearch(e.target.value);
     setIsSearched(false);
@@ -46,7 +43,7 @@ function LocationModal({ onClose, locations, setLocations }) {
 
   return ReactDOM.createPortal(
     <Backdrop
-      onClick={handleClose}
+      onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -59,7 +56,7 @@ function LocationModal({ onClose, locations, setLocations }) {
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ duration: 0.3 }}
       >
-        <IconStyled onClick={handleClose}>
+        <IconStyled onClick={onClose}>
           <MultiplyIcon />
         </IconStyled>
         <Title>
@@ -79,12 +76,7 @@ function LocationModal({ onClose, locations, setLocations }) {
         </LocationTitle>
         {isSearched &&
           (searchResults.length > 0 ? (
-            <LocationList
-              locations={locations}
-              setLocations={setLocations}
-              places={searchResults}
-              onClose={handleClose}
-            />
+            <LocationList places={searchResults} onClose={onClose} />
           ) : (
             <SearchStatus>검색 결과가 없습니다 😢</SearchStatus>
           ))}
