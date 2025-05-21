@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 import { TickIcon } from './../../assets/icon/TickIcon';
+import { createPlace } from '../../apis/fetchLocation';
 
 function LocationList({ places, onClose, locations, setLocations }) {
   const [checkedPlaceId, setCheckedPlaceId] = useState(null);
@@ -28,28 +29,24 @@ function LocationList({ places, onClose, locations, setLocations }) {
       (location) => location.id === selectedPlace.id
     );
     if (isAlreadyAdded) {
-      alert('이미 추가된 장소입니다');
+      alert('이미 추가된 장소입니다.');
       return;
     }
     try {
-      const response = await fetch('', {
-        // URL 필요
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          place_name: selectedPlace.place_name,
-          place_longitude: selectedPlace.x, // 경도
-          place_latitude: selectedPlace.y, // 위도
-        }),
-      });
+      const placeData = {
+        placeName: selectedPlace.place_name,
+        addressName: selectedPlace.address_name || '',
+        roadAddressName: selectedPlace.road_address_name || '',
+        longitude: selectedPlace.x,
+        latitude: selectedPlace.y,
+      };
+      const newPlace = await createPlace(placeData);
+      addLocation(newPlace);
+      handleClose();
     } catch (err) {
-      console.log('전송 실패', err);
+      alert('장소 추가 중 오류가 발생했습니다');
+      console.error(err);
     }
-    addLocation(selectedPlace);
-
-    handleClose();
   };
 
   return (

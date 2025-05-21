@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DeleteModal from './DeleteModal';
+import { deletePlace, pinPlace, unpinPlace } from '../../apis/fetchLocation';
 import { PinClayIcon } from '../../assets/icon/PinClayIcon';
 import { PinColorIcon } from '../../assets/icon/PinColorIcon';
 import { TrashCanIcon } from '../../assets/icon/TrashCanIcon';
@@ -15,12 +16,40 @@ function LocationDiv({
 }) {
   const [pinnedMap, setPinnedMap] = useState({});
   const [deleteLocationId, setDeleteLocationId] = useState(null);
-  const handleOnPinned = (id) => {
+
+  useEffect(() => {
+    if (locations.length > 0) {
+      const tempPinnedMap = {};
+      locations.forEach((loc) => {
+        tempPinnedMap[loc.placeId] = loc.isPinned;
+      });
+      setPinnedMap(tempPinnedMap);
+    }
+  }, [locations]);
+
+  const handleOnPinned = async (id) => {
+    const isPinned = pinnedMap[id] || false;
+
     setPinnedMap((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
+
+    try {
+      if (isPinned) {
+        await unpinPlace(id);
+      } else {
+        await pinPlace(id);
+      }
+    } catch (error) {
+      setPinnedMap((prev) => ({
+        ...prev,
+        [id]: isPinned,
+      }));
+      alert('서버와 통신에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
+
   const handleOnCheck = (id) => {
     if (checkedLocationId === id) {
       setCheckedLocationId(null);
@@ -28,8 +57,15 @@ function LocationDiv({
       setCheckedLocationId(id);
     }
   };
-  const deleteLocation = (id) => {
-    setLocations((prev) => prev.filter((data) => data.id !== id));
+
+  const deleteLocation = async (id) => {
+    try {
+      await deletePlace(id);
+      setLocations((prev) => prev.filter((data) => data.placeId !== id));
+      setCheckedLocationId(null);
+    } catch (error) {
+      alert('서버와 통신에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
   const handleOnDelete = (id) => {
     setDeleteLocationId(id);
@@ -38,8 +74,8 @@ function LocationDiv({
     setDeleteLocationId(null);
   };
   const sortedLocations = [...locations].sort((x, y) => {
-    const firstPinned = pinnedMap[x.id] || false;
-    const secondPinned = pinnedMap[y.id] || false;
+    const firstPinned = pinnedMap[x.placeId] || false;
+    const secondPinned = pinnedMap[y.placeId] || false;
 
     if (firstPinned === secondPinned) return 0;
     return firstPinned ? -1 : 1;
@@ -48,28 +84,28 @@ function LocationDiv({
     <div>
       <Container>
         {sortedLocations.map((location) => {
-          const isPinned = !!pinnedMap[location.id];
-          const isChecked = checkedLocationId === location.id;
+          const isPinned = !!pinnedMap[location.placeId];
+          const isChecked = checkedLocationId === location.placeId;
           return (
             <Wrapper
-              onClick={() => handleOnCheck(location.id)}
-              key={location.id}
+              onClick={() => handleOnCheck(location.placeId)}
+              key={location.placeId}
               checked={isChecked}
             >
               <PinWrapper
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleOnPinned(location.id);
+                  handleOnPinned(location.placeId);
                 }}
               >
                 {isPinned ? <PinColorIcon /> : <PinClayIcon />}
               </PinWrapper>
-              <LocationDivName>{location.place_name}</LocationDivName>
+              <LocationDivName>{location.placeName}</LocationDivName>
 
               <TrashCanIcon
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleOnDelete(location.id);
+                  handleOnDelete(location.placeId);
                 }}
               />
             </Wrapper>
@@ -81,8 +117,8 @@ function LocationDiv({
         {deleteLocationId && (
           <DeleteModal
             onClose={handleModalClose}
-            onDelete={() => {
-              deleteLocation(deleteLocationId);
+            onDelete={async () => {
+              await deleteLocation(deleteLocationId);
               setCheckedLocationId(null);
               handleModalClose();
             }}

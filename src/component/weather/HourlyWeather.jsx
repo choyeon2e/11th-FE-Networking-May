@@ -9,9 +9,6 @@ import TempGraph from './../../utils/TempGraph';
 function HourlyWeather({ weatherData }) {
   const [page, setPage] = useState(0);
   const itemsPerPage = 12;
-  const totalPages = weatherData
-    ? Math.ceil(weatherData.length / itemsPerPage)
-    : 0;
 
   const getHour = (t) => {
     const date = new Date(t * 1000);
@@ -23,18 +20,6 @@ function HourlyWeather({ weatherData }) {
     (page + 1) * itemsPerPage
   );
 
-  const handlePrev = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (page < totalPages - 1) {
-      setPage(page + 1);
-    }
-  };
-
   return (
     <Wrapper>
       <LocText>시간별 현황</LocText>
@@ -42,7 +27,7 @@ function HourlyWeather({ weatherData }) {
         <TempGraph data={currentData} />
       </GraphContainer>
       <RowContainer>
-        <NavButton onClick={handlePrev} visible={page === 0}>
+        <NavButton onClick={() => setPage(0)} visible={page === 0}>
           <ChevronLeft />
         </NavButton>
         <WeatherRow>
@@ -54,7 +39,7 @@ function HourlyWeather({ weatherData }) {
             </WeatherItem>
           ))}
         </WeatherRow>
-        <NavButton onClick={handleNext} visible={page === totalPages - 1}>
+        <NavButton onClick={() => setPage(1)} visible={page === 1}>
           <ChevronRight />
         </NavButton>
       </RowContainer>
