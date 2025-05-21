@@ -1,6 +1,5 @@
 export const TrashCanIcon = ({ onClick }) => {
   const uniqueId = Math.random().toString(36).substr(2, 9);
-  console.log(uniqueId);
   return (
     <svg
       className='trash-icon'

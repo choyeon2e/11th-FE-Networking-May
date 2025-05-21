@@ -6,6 +6,7 @@ import getDustLevel from '../../utils/getDustLevel';
 import getUVLevel from '../../utils/getUVLevel';
 import { useState } from 'react';
 import AirDetail from './details/AirDetail';
+import { descMapper } from '../../utils/descMapper';
 
 function CurrentWeather({ location, weatherData, airData }) {
   const [isHover, setIsHover] = useState(null);
@@ -20,7 +21,6 @@ function CurrentWeather({ location, weatherData, airData }) {
   const feelTemp = weatherData.feels_like.toFixed(1);
   const humidity = weatherData.humidity;
   const windSpeed = weatherData.wind_speed.toFixed(1);
-  const description = weatherData.weather[0].description;
   const windDirection = getWindDirection(weatherData.wind_deg);
 
   //공기 데이터 추출
@@ -40,6 +40,7 @@ function CurrentWeather({ location, weatherData, airData }) {
   //아이콘
   const isNight = weatherData.weather[0].icon.includes('n');
   const icon = iconMapper(weatherData.weather[0], 160, { isNight });
+  const desc = descMapper(weatherData.weather[0].main);
   const isDay =
     weatherData.weather[0].icon && weatherData.weather[0].icon.includes('n')
       ? '야간'
@@ -56,7 +57,7 @@ function CurrentWeather({ location, weatherData, airData }) {
           {temp}°
         </WeatherDiv>
         <Desc>
-          {isDay} / {description}
+          {isDay} / {desc}
         </Desc>
         <DetailInfo>
           <Title>체감</Title>

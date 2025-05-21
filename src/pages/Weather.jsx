@@ -9,7 +9,6 @@ function Weather({ checkedLocationId, locations }) {
   const location = locations.find((loc) => loc.id === checkedLocationId);
   const lat = location?.y;
   const lon = location?.x;
-  console.log(lat, lon);
 
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['weather', lat, lon],
@@ -24,7 +23,6 @@ function Weather({ checkedLocationId, locations }) {
         날씨 정보를 불러오는데 실패했습니다: {error.message}
       </LoadWeather>
     );
-  console.log(data.weekly);
 
   return (
     <Wrapper>
