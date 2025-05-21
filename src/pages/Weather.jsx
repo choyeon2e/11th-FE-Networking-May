@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import { fetchWeather } from './../apis/fetchWeather';
 
 function Weather({ checkedLocationId, locations }) {
-  const location = locations.find((loc) => loc.id === checkedLocationId);
-  const lat = location?.y;
-  const lon = location?.x;
+  const location = locations.find((loc) => loc.placeId === checkedLocationId);
+  const lat = location?.latitude;
+  const lon = location?.longitude;
 
   const { data, error, isLoading, isError } = useQuery({
     queryKey: ['weather', lat, lon],

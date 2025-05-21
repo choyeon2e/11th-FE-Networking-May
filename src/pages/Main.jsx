@@ -2,11 +2,23 @@ import styled from 'styled-components';
 import Location from '../component/location/Location';
 import NoLocation from '../component/location/NoLocation';
 import Weather from './Weather';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getPlaceList } from '../apis/fetchLocation';
 
 function Main() {
   const [locations, setLocations] = useState([]);
   const [checkedLocationId, setCheckedLocationId] = useState(null);
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const data = await getPlaceList();
+        setLocations(data);
+      } catch (error) {
+        console.error('위치 목록을 불러오는데 실패했습니다.', error);
+      }
+    };
+    fetchLocations();
+  }, []);
   return (
     <Wrapper hasLocation={checkedLocationId}>
       <Location
