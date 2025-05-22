@@ -15,7 +15,6 @@ function CurrentWeather({ location, weatherData, airData }) {
   const day = today.getDate();
 
   if (!weatherData) return <p>날씨 불러오는 중...</p>;
-  console.log(weatherData);
   //날씨 데이터 추출
   const temp = weatherData.temp.toFixed(1);
   const feelTemp = weatherData.feels_like.toFixed(1);

@@ -6,7 +6,7 @@ function AirBox({ label, value, level, type, isHover, setIsHover }) {
 
   return (
     <AirBoxStyle
-      backgroundColor={styles.backgroundColor}
+      style={{ backgroundColor: styles.backgroundColor }}
       onMouseEnter={() => setIsHover(type)}
       onMouseLeave={() => setIsHover(null)}
     >
@@ -29,7 +29,6 @@ const AirBoxStyle = styled.div`
   gap: 10px;
   border-radius: 12px;
   font-weight: 500;
-  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const Value = styled.div`
