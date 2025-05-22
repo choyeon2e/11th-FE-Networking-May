@@ -1,32 +1,15 @@
-import { openWeatherApi, BaseUrlApi } from './axios';
-
-const API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
+import { BaseUrlApi } from './axios';
 
 export const fetchWeather = async (lat, lon) => {
   const weatherParams = {
     lat,
     lon,
-    exclude: 'minutely,alerts',
-    appid: API_KEY,
-    units: 'metric',
-    lang: 'kr',
-  };
-
-  const airParams = {
-    lat,
-    lon,
-    appid: API_KEY,
-  };
-
-  const weekParams = {
-    lat,
-    lon,
   };
 
   const [weatherRes, airRes, weekRes] = await Promise.all([
-    openWeatherApi.get('/data/3.0/onecall', { params: weatherParams }),
-    openWeatherApi.get('/data/2.5/air_pollution', { params: airParams }),
-    BaseUrlApi.get('/weather/5days', { params: weekParams }),
+    BaseUrlApi.get('/weather/onecall', { params: weatherParams }),
+    BaseUrlApi.get('/weather/air', { params: weatherParams }),
+    BaseUrlApi.get('/weather/5days', { params: weatherParams }),
   ]);
 
   return {
