@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import useEscapeClose from '../../hooks/useEscapeClose';
 import { CloudsIcon } from './../../assets/icons/CloudsIcon';
 import { MultiplyIcon } from './../../assets/icon/MultiplyIcon';
 import { useState } from 'react';
@@ -17,6 +18,7 @@ function LocationModal({ onClose }) {
   const [isSearched, setIsSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEscapeClose(onClose);
   const handleOnInput = (e) => {
     setSearch(e.target.value);
     setIsSearched(false);
