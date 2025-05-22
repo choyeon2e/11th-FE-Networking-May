@@ -6,8 +6,3 @@ export const BaseUrlApi = axios.create({
   baseURL: `${SERVER_URL}`,
   headers: { 'Content-Type': 'application/json' },
 });
-
-export const openWeatherApi = axios.create({
-  baseURL: 'https://api.openweathermap.org',
-  headers: { 'Content-Type': 'application/json' },
-});
