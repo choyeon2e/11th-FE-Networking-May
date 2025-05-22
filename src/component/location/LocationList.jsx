@@ -2,19 +2,18 @@ import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 import { TickIcon } from './../../assets/icon/TickIcon';
-import { createPlace } from '../../apis/fetchLocation';
+import { useCreatePlace } from '../../hooks/useLocation';
 
-function LocationList({ places, onClose, locations, setLocations }) {
+function LocationList({ places, onClose }) {
   const [checkedPlaceId, setCheckedPlaceId] = useState(null);
+  const createPlace = useCreatePlace();
+
   const handleOnCheck = useCallback((id) => {
     setCheckedPlaceId((prevId) => (prevId === id ? null : id));
   }, []);
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
-  const addLocation = (data) => {
-    setLocations((prev) => [...prev, data]);
-  };
   const handleOnSubmit = async () => {
     if (checkedPlaceId === null) {
       alert('장소를 선택해 주세요.');
@@ -25,28 +24,23 @@ function LocationList({ places, onClose, locations, setLocations }) {
     });
     if (!selectedPlace) return;
 
-    const isAlreadyAdded = locations.some(
-      (location) => location.id === selectedPlace.id
-    );
-    if (isAlreadyAdded) {
-      alert('이미 추가된 장소입니다.');
-      return;
-    }
-    try {
-      const placeData = {
-        placeName: selectedPlace.place_name,
-        addressName: selectedPlace.address_name || '',
-        roadAddressName: selectedPlace.road_address_name || '',
-        longitude: selectedPlace.x,
-        latitude: selectedPlace.y,
-      };
-      const newPlace = await createPlace(placeData);
-      addLocation(newPlace);
-      handleClose();
-    } catch (err) {
-      alert('장소 추가 중 오류가 발생했습니다');
-      console.error(err);
-    }
+    const placeData = {
+      placeName: selectedPlace.place_name,
+      addressName: selectedPlace.address_name || '',
+      roadAddressName: selectedPlace.road_address_name || '',
+      longitude: selectedPlace.x,
+      latitude: selectedPlace.y,
+    };
+    createPlace.mutate(placeData, {
+      onSuccess: () => {
+        handleClose();
+      },
+      onError: (error) => {
+        const message =
+          error?.response?.data?.message || '알 수 없는 오류가 발생했습니다.';
+        alert(message);
+      },
+    });
   };
 
   return (

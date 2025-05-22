@@ -4,8 +4,10 @@ import HourlyWeather from './../component/weather/HourlyWeather';
 import WeekWeather from './../component/weather/WeekWeather';
 import styled from 'styled-components';
 import { fetchWeather } from './../apis/fetchWeather';
+import { usePlaceList } from '../hooks/useLocation';
 
-function Weather({ checkedLocationId, locations }) {
+function Weather({ checkedLocationId }) {
+  const { data: locations = [] } = usePlaceList();
   const location = locations.find((loc) => loc.placeId === checkedLocationId);
   const lat = location?.latitude;
   const lon = location?.longitude;

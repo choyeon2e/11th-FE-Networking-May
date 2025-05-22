@@ -1,53 +1,26 @@
 import styled, { css } from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import DeleteModal from './DeleteModal';
-import { deletePlace, pinPlace, unpinPlace } from '../../apis/fetchLocation';
+import {
+  useDeletePlace,
+  usePlaceList,
+  useTogglePinPlace,
+} from '../../hooks/useLocation';
 import { PinClayIcon } from '../../assets/icon/PinClayIcon';
 import { PinColorIcon } from '../../assets/icon/PinColorIcon';
 import { TrashCanIcon } from '../../assets/icon/TrashCanIcon';
 import { palette } from '../../styles/palette';
 import { AnimatePresence } from 'framer-motion';
 
-function LocationDiv({
-  locations,
-  setLocations,
-  checkedLocationId,
-  setCheckedLocationId,
-}) {
-  const [pinnedMap, setPinnedMap] = useState({});
+function LocationDiv({ checkedLocationId, setCheckedLocationId }) {
   const [deleteLocationId, setDeleteLocationId] = useState(null);
+  const { data: locations = [] } = usePlaceList();
+  const deletePlace = useDeletePlace();
+  const togglePinPlace = useTogglePinPlace();
 
-  useEffect(() => {
-    if (locations.length > 0) {
-      const tempPinnedMap = {};
-      locations.forEach((loc) => {
-        tempPinnedMap[loc.placeId] = loc.isPinned;
-      });
-      setPinnedMap(tempPinnedMap);
-    }
-  }, [locations]);
-
-  const handleOnPinned = async (id) => {
-    const isPinned = pinnedMap[id] || false;
-
-    setPinnedMap((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-
-    try {
-      if (isPinned) {
-        await unpinPlace(id);
-      } else {
-        await pinPlace(id);
-      }
-    } catch (error) {
-      setPinnedMap((prev) => ({
-        ...prev,
-        [id]: isPinned,
-      }));
-      alert('서버와 통신에 실패했습니다. 다시 시도해 주세요.');
-    }
+  const handleOnPinned = (location) => {
+    const { placeId, isPinned } = location;
+    togglePinPlace.mutate({ placeId, isPinned });
   };
 
   const handleOnCheck = (id) => {
@@ -58,47 +31,43 @@ function LocationDiv({
     }
   };
 
-  const deleteLocation = async (id) => {
-    try {
-      await deletePlace(id);
-      setLocations((prev) => prev.filter((data) => data.placeId !== id));
-      setCheckedLocationId(null);
-    } catch (error) {
-      alert('서버와 통신에 실패했습니다. 다시 시도해 주세요.');
-    }
+  const deleteLocation = (id) => {
+    setCheckedLocationId(null);
+    deletePlace.mutate(id);
+    handleModalClose();
   };
+
   const handleOnDelete = (id) => {
     setDeleteLocationId(id);
   };
+
   const handleModalClose = () => {
     setDeleteLocationId(null);
   };
-  const sortedLocations = [...locations].sort((x, y) => {
-    const firstPinned = pinnedMap[x.placeId] || false;
-    const secondPinned = pinnedMap[y.placeId] || false;
-
-    if (firstPinned === secondPinned) return 0;
-    return firstPinned ? -1 : 1;
-  });
+  const sortedLocations = useMemo(() => {
+    return [...locations].sort((a, b) => {
+      if (a.isPinned === b.isPinned) return 0;
+      return a.isPinned ? -1 : 1;
+    });
+  }, [locations]);
   return (
     <div>
       <Container>
         {sortedLocations.map((location) => {
-          const isPinned = !!pinnedMap[location.placeId];
           const isChecked = checkedLocationId === location.placeId;
           return (
             <Wrapper
-              onClick={() => handleOnCheck(location.placeId)}
               key={location.placeId}
+              onClick={() => handleOnCheck(location.placeId)}
               checked={isChecked}
             >
               <PinWrapper
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleOnPinned(location.placeId);
+                  handleOnPinned(location);
                 }}
               >
-                {isPinned ? <PinColorIcon /> : <PinClayIcon />}
+                {location.isPinned ? <PinColorIcon /> : <PinClayIcon />}
               </PinWrapper>
               <LocationDivName>{location.placeName}</LocationDivName>
 
@@ -117,10 +86,9 @@ function LocationDiv({
         {deleteLocationId && (
           <DeleteModal
             onClose={handleModalClose}
-            onDelete={async () => {
-              await deleteLocation(deleteLocationId);
+            onDelete={() => {
               setCheckedLocationId(null);
-              handleModalClose();
+              deleteLocation(deleteLocationId);
             }}
           />
         )}
