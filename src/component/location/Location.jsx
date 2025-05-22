@@ -6,12 +6,7 @@ import LocationModal from './LocationModal';
 import LocationDiv from './LocationDiv';
 import { AnimatePresence } from 'framer-motion';
 
-function Location({
-  locations,
-  setLocations,
-  checkedLocationId,
-  setCheckedLocationId,
-}) {
+function Location({ checkedLocationId, setCheckedLocationId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -29,17 +24,9 @@ function Location({
       <LocationDiv
         checkedLocationId={checkedLocationId}
         setCheckedLocationId={setCheckedLocationId}
-        locations={locations}
-        setLocations={setLocations}
       ></LocationDiv>
       <AnimatePresence>
-        {isModalOpen && (
-          <LocationModal
-            locations={locations}
-            setLocations={setLocations}
-            onClose={() => setIsModalOpen(false)}
-          />
-        )}
+        {isModalOpen && <LocationModal onClose={() => setIsModalOpen(false)} />}
       </AnimatePresence>
     </Wrapper>
   );

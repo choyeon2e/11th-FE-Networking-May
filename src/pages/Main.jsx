@@ -2,37 +2,24 @@ import styled from 'styled-components';
 import Location from '../component/location/Location';
 import NoLocation from '../component/location/NoLocation';
 import Weather from './Weather';
-import { useState, useEffect } from 'react';
-import { getPlaceList } from '../apis/fetchLocation';
+import { useState } from 'react';
+import { usePlaceList } from '../hooks/useLocation';
 
 function Main() {
-  const [locations, setLocations] = useState([]);
+  const { isLoading, isError } = usePlaceList();
   const [checkedLocationId, setCheckedLocationId] = useState(null);
-  useEffect(() => {
-    const fetchLocations = async () => {
-      try {
-        const data = await getPlaceList();
-        setLocations(data);
-      } catch (error) {
-        console.error('위치 목록을 불러오는데 실패했습니다.', error);
-      }
-    };
-    fetchLocations();
-  }, []);
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (isError) return <p>위치 목록을 불러오는 데 실패했습니다.</p>;
   return (
     <Wrapper hasLocation={checkedLocationId}>
       <Location
-        locations={locations}
-        setLocations={setLocations}
         checkedLocationId={checkedLocationId}
         setCheckedLocationId={setCheckedLocationId}
       />
       <Content>
         {checkedLocationId ? (
-          <Weather
-            locations={locations}
-            checkedLocationId={checkedLocationId}
-          />
+          <Weather checkedLocationId={checkedLocationId} />
         ) : (
           <NoLocation />
         )}
