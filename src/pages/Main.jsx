@@ -4,12 +4,19 @@ import NoLocation from '../component/location/NoLocation';
 import Weather from './Weather';
 import { useState } from 'react';
 import { usePlaceList } from '../hooks/useLocation';
+import Spinner from '../component/ui/Spinner';
+import CenteredBox from '../component/ui/CenteredBox';
 
 function Main() {
   const { isLoading, isError } = usePlaceList();
   const [checkedLocationId, setCheckedLocationId] = useState(null);
-
-  if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) {
+    return (
+      <CenteredBox fixed>
+        <Spinner />
+      </CenteredBox>
+    );
+  }
   if (isError) return <p>위치 목록을 불러오는 데 실패했습니다.</p>;
   return (
     <Wrapper hasLocation={checkedLocationId}>

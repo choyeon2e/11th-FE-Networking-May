@@ -1,10 +1,12 @@
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
+import useEscapeClose from '../../hooks/useEscapeClose';
 import { NightStormIcon } from './../../assets/icons/NightStormIcon';
 import { palette } from './../../styles/palette';
 import { motion } from 'framer-motion';
 
 function DeleteModal({ onClose, onDelete }) {
+  useEscapeClose(onClose);
   return ReactDOM.createPortal(
     <Backdrop
       onClick={onClose}

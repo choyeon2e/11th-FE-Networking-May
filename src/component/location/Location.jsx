@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import { styled, css } from 'styled-components';
 import { MapPinIcon } from './../../assets/icon/MapPinIcon';
 import { PlusIcon } from './../../assets/icon/PlusIcon';
+import { palette } from '../../styles/palette';
 import { useState } from 'react';
 import LocationModal from './LocationModal';
 import LocationDiv from './LocationDiv';
@@ -11,15 +12,15 @@ function Location({ checkedLocationId, setCheckedLocationId }) {
 
   return (
     <Wrapper>
-      <Flex>
+      <ListWrapper>
         <MapPinIcon />
         위치 목록
-      </Flex>
+      </ListWrapper>
       <Space />
-      <Flex iscursor onClick={() => setIsModalOpen(true)}>
+      <PlusWrapper iscursor onClick={() => setIsModalOpen(true)}>
         <PlusIcon />
         추가하기
-      </Flex>
+      </PlusWrapper>
       <Space />
       <LocationDiv
         checkedLocationId={checkedLocationId}
@@ -34,6 +35,13 @@ function Location({ checkedLocationId, setCheckedLocationId }) {
 
 export default Location;
 
+const activeStyle = css`
+  background-color: ${palette.gray10};
+  border-radius: 15px;
+  box-shadow: 2px 4px 4px 0px #0000001a;
+  width: 200px;
+`;
+
 const Wrapper = styled.div`
   width: 248px;
   padding: 48px 16px 48px 16px;
@@ -45,15 +53,26 @@ const Wrapper = styled.div`
   left: 0;
 `;
 
-const Flex = styled.div`
+const ListWrapper = styled.div`
   align-items: center;
   display: flex;
   font-size: 20px;
   font-weight: 700;
   gap: 16px;
-  cursor: ${({ iscursor }) => (iscursor ? 'pointer' : 'default')};
 `;
 
+const PlusWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+  font-weight: 700;
+  gap: 16px;
+  padding: 4px 0px;
+  cursor: ${({ iscursor }) => (iscursor ? 'pointer' : 'default')};
+  &:hover {
+    ${activeStyle}
+  }
+`;
 const Space = styled.div`
   height: 40px;
 `;

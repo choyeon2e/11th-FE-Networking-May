@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import CurrentWeather from './../component/weather/CurrentWeather';
 import HourlyWeather from './../component/weather/HourlyWeather';
 import WeekWeather from './../component/weather/WeekWeather';
+import Spinner from '../component/ui/Spinner';
+import CenteredBox from '../component/ui/CenteredBox';
 import styled from 'styled-components';
 import { fetchWeather } from './../apis/fetchWeather';
 import { usePlaceList } from '../hooks/useLocation';
@@ -18,7 +20,14 @@ function Weather({ checkedLocationId }) {
     enabled: !!lat && !!lon,
   });
 
-  if (isLoading) return <LoadWeather>날씨 정보를 불러오는 중...</LoadWeather>;
+  if (isLoading)
+    return (
+      <Wrapper>
+        <CenteredBox fixed marginLeft='248'>
+          <Spinner></Spinner>
+        </CenteredBox>
+      </Wrapper>
+    );
   if (isError)
     return (
       <LoadWeather>
