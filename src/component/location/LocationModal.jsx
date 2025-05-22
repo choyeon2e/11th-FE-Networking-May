@@ -88,7 +88,11 @@ function LocationModal({ onClose }) {
           </CenteredBox>
         ) : isSearched ? (
           searchResults.length > 0 ? (
-            <LocationList places={searchResults} onClose={onClose} />
+            <LocationList
+              places={searchResults}
+              onClose={onClose}
+              searchValue={search}
+            />
           ) : (
             <SearchStatus>검색 결과가 없습니다 😢</SearchStatus>
           )

@@ -4,7 +4,7 @@ import { palette } from '../../styles/palette';
 import { TickIcon } from './../../assets/icon/TickIcon';
 import { useCreatePlace } from '../../hooks/useLocation';
 
-function LocationList({ places, onClose }) {
+function LocationList({ places, onClose, searchValue }) {
   const [checkedPlaceId, setCheckedPlaceId] = useState(null);
   const createPlace = useCreatePlace();
 
@@ -25,7 +25,7 @@ function LocationList({ places, onClose }) {
     if (!selectedPlace) return;
 
     const placeData = {
-      placeName: selectedPlace.place_name,
+      placeName: searchValue,
       addressName: selectedPlace.address_name || '',
       roadAddressName: selectedPlace.road_address_name || '',
       longitude: selectedPlace.x,
