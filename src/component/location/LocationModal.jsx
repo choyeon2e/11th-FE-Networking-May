@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { CloudsIcon } from './../../assets/icons/CloudsIcon';
 import { MultiplyIcon } from './../../assets/icon/MultiplyIcon';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LocationList from './LocationList';
+import Spinner from '../ui/Spinner';
+import CenteredBox from '../ui/CenteredBox';
 import { ZoomIcon } from '../../assets/icon/ZoomIcon';
 import ReactDOM from 'react-dom';
 import { palette } from '../../styles/palette';
@@ -13,6 +15,7 @@ function LocationModal({ onClose }) {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnInput = (e) => {
     setSearch(e.target.value);
@@ -20,12 +23,15 @@ function LocationModal({ onClose }) {
   };
 
   const searchPlace = (search) => {
+    setIsLoading(true);
     const ps = new kakao.maps.services.Places();
     ps.keywordSearch(search, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
+        setIsLoading(false);
         setSearchResults(data);
       } else {
         setSearchResults([]);
+        setIsLoading(false);
       }
       setIsSearched(true);
     });
@@ -74,12 +80,17 @@ function LocationModal({ onClose }) {
             <ZoomIcon onClick={handleOnSearch} />
           </InputWrapper>
         </LocationTitle>
-        {isSearched &&
-          (searchResults.length > 0 ? (
+        {isLoading ? (
+          <CenteredBox width='470px' height='240px'>
+            <Spinner />
+          </CenteredBox>
+        ) : isSearched ? (
+          searchResults.length > 0 ? (
             <LocationList places={searchResults} onClose={onClose} />
           ) : (
             <SearchStatus>검색 결과가 없습니다 😢</SearchStatus>
-          ))}
+          )
+        ) : null}
       </Container>
     </Backdrop>,
     document.getElementById('modal-root')
@@ -164,5 +175,5 @@ const SearchStatus = styled.div`
   margin-top: 100px;
   text-align: center;
   font-size: 20px;
-  margin-left: 150px;
+  margin-left: 140px;
 `;
