@@ -25,7 +25,6 @@ function Weather({ checkedLocationId }) {
         날씨 정보를 불러오는데 실패했습니다: {error.message}
       </LoadWeather>
     );
-
   return (
     <Wrapper>
       <CurrentWeather
