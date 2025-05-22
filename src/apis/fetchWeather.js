@@ -6,11 +6,11 @@ export const fetchWeather = async (lat, lon) => {
     lon,
   };
 
-  const [weatherRes, airRes, weekRes] = await Promise.all([
-    BaseUrlApi.get('/weather/onecall', { params: weatherParams }),
-    BaseUrlApi.get('/weather/air', { params: weatherParams }),
-    BaseUrlApi.get('/weather/5days', { params: weatherParams }),
-  ]);
+  const [weatherRes, airRes, weekRes] = await Promise.all(
+    ['/weather/onecall', '/weather/air', '/weather/5days'].map((api) =>
+      BaseUrlApi.get(api, { params: weatherParams })
+    )
+  );
 
   return {
     current: weatherRes.data.current,
