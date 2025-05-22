@@ -20,7 +20,17 @@ const formatDate = (dateStr) => {
 };
 
 function WeekWeather({ weatherData }) {
-  const fiveDaysData = weatherData.slice(0, 5);
+  const fiveDaysData = weatherData.slice(0, 5).map((day) => {
+    if (day.pm.weather === '정보 없음') {
+      return {
+        ...day,
+        pm: {
+          ...day.am,
+        },
+      };
+    }
+    return day;
+  });
   return (
     <Wrapper>
       <LocText>주간 예보</LocText>
